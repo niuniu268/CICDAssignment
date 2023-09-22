@@ -1,0 +1,26 @@
+server:
+  port: 8082
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://192.168.1.72:3306/uber?useSSL=true
+#    username: niuniu
+#    password: password
+#    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.1.72:3306/uber?useSSL=true
+      username: niuniu
+      password: password
+#mybatis-plus:
+#  global-config:
+#    db-config:
+#      id-type: auto
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+    operations-sorter: method
+
+
