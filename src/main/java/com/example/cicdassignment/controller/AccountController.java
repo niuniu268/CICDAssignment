@@ -1,16 +1,10 @@
 package com.example.cicdassignment.controller;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.function.impl.ToInteger;
-import com.example.cicdassignment.pojo.Account;
-import com.example.cicdassignment.pojo.JAccount;
-import com.example.cicdassignment.pojo.Payment;
-import com.example.cicdassignment.pojo.Route;
+import com.example.cicdassignment.pojo.*;
 import com.example.cicdassignment.service.AccountServiceImpl;
 import com.example.cicdassignment.service.RouteServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,58 +31,76 @@ public class AccountController {
         return accountService.selectJoinAll( );
     }
 
-//    @PostMapping
-//    public String addBooking (@RequestBody Payment payment) throws Exception {
-//        Result result = getResult( payment );
-//        if (result == null) return null;
-//        int i = Integer.parseInt( result.routeel.getPrice( ) ) + Integer.parseInt( result.accountel.getHistory( ) );
-//        if (i <= 0) {
-//            log.debug( "check input payment" );
-//            return null;
-//        }
-//        accountService.changeBooking( result.accountel.getId( ), result.routeel.getId( ), Integer.toString( i ) );
-//        return result.accountel.getPayment( );
-//
-//
-//    }
+    @PostMapping("add")
+    public String addBooking (@RequestBody Payment payment) throws Exception {
 
-//
-//    @PostMapping
-//    public String completeBooking (@RequestBody Payment payment) throws Exception {
-//        Result result = getResult( payment );
-//        if (result == null) return null;
-//
-//        if (result.accountel == null || result.routeel == null || result.accountel.getBooking( ) != result.routeel.getId( )) {
-//            log.debug( "check input payment" );
-//            return null;
-//        }
-//        accountService.changeBooking( result.accountel.getId( ), 0, result.accountel.getHistory( ) );
-//
-//        return result.accountel.getPayment( );
-//
-//    }
-//
-//    @PostMapping
-//    public String cancelBooking (@RequestBody Payment payment) throws Exception {
-//        Result result = getResult( payment );
-//        if (result == null) return null;
-//
-//        if (result.accountel == null || result.routeel == null || result.accountel.getBooking( ) != result.routeel.getId( )) {
-//            log.debug( "check input payment" );
-//            return null;
-//        }
-//        int i = Integer.parseInt( result.routeel.getPrice( ) ) + Integer.parseInt( result.accountel.getHistory( ) );
-//
-//        if (i < 0) {
-//            log.debug( "check input payment" );
-//            return null;
-//        }
-//
-//        accountService.changeBooking( result.accountel.getId( ), 0, Integer.toString( i ) );
-//
-//        return result.accountel.getPayment( );
-//
-//    }
+        System.out.println(payment );
+
+        if (payment.getUserid( ) == null || payment.getRouteid( ) == null) {
+            return null;
+        }
+        Account accountel = accountService.selectById( payment.getUserid( ) );
+        Route routeel = routeService.selectById( payment.getRouteid( ) );
+
+
+        int i = Integer.parseInt( accountel.getHistory() ) + Integer.parseInt( routeel.getPrice() );
+        if (i <= 0) {
+            return null;
+        }
+        accountService.changeBooking( accountel.getId( ), routeel.getId( ), Integer.toString( i ) );
+        return accountel.getPayment( );
+
+
+    }
+
+
+    @PostMapping("/finish")
+    public String completeBooking (@RequestBody Payment payment) throws Exception {
+
+        if (payment.getUserid( ) == null || payment.getRouteid( ) == null) {
+            return null;
+        }
+        Account accountel = accountService.selectById( payment.getUserid( ) );
+        Route routeel = routeService.selectById( payment.getRouteid( ) );
+        Result result = new Result( accountel, routeel );
+
+        if (result.getAccountel( ) == null || result.getRouteel( ) == null || result.getAccountel( ).getBooking( ) != result.getRouteel( ).getId( )) {
+            log.debug( "check input payment" );
+            return null;
+        }
+        accountService.changeBooking( result.getAccountel( ).getId( ), 0, result.getAccountel( ).getHistory( ) );
+
+        return result.getAccountel( ).getPayment( );
+
+    }
+
+    @PostMapping("/cancel")
+    public String cancelBooking (@RequestBody Payment payment) throws Exception {
+
+        if (payment.getUserid( ) == null || payment.getRouteid( ) == null) {
+            return null;
+        }
+        Account accountel = accountService.selectById( payment.getUserid( ) );
+        Route routeel = routeService.selectById( payment.getRouteid( ) );
+        Result result = new Result( accountel, routeel );
+
+
+        if (result.getAccountel( ) == null || result.getRouteel( ) == null || result.getAccountel( ).getBooking( ) != result.getRouteel( ).getId( )) {
+            log.debug( "check input payment" );
+            return null;
+        }
+        int i = Integer.parseInt( result.getAccountel( ).getHistory( ) )-Integer.parseInt( result.getRouteel( ).getPrice( ) );
+
+        if (i < 0) {
+            log.debug( "check input payment" );
+            return null;
+        }
+
+        accountService.changeBooking( result.getAccountel( ).getId( ), 0, Integer.toString( i ) );
+
+        return result.getAccountel( ).getPayment( );
+
+    }
 //
 //    private Result getResult (Payment payment) {
 //        if (payment.getUserid( ) == null || payment.getRouteid( ) == null) {
