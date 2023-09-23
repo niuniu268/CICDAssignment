@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -42,13 +43,15 @@ public class AccountController {
         Account accountel = accountService.selectById( payment.getUserid( ) );
         Route routeel = routeService.selectById( payment.getRouteid( ) );
 
+        Result result = new Result( accountel, routeel );
 
-        int i = Integer.parseInt( accountel.getHistory() ) + Integer.parseInt( routeel.getPrice() );
+
+        int i = Integer.parseInt( result.getAccountel().getHistory() ) + Integer.parseInt( result.getRouteel().getPrice() );
         if (i <= 0) {
             return null;
         }
-        accountService.changeBooking( accountel.getId( ), routeel.getId( ), Integer.toString( i ) );
-        return accountel.getPayment( );
+        accountService.changeBooking( result.getAccountel().getId( ), result.getRouteel().getId( ), Integer.toString( i ) );
+        return result.getAccountel().getPayment( );
 
 
     }
@@ -64,7 +67,8 @@ public class AccountController {
         Route routeel = routeService.selectById( payment.getRouteid( ) );
         Result result = new Result( accountel, routeel );
 
-        if (result.getAccountel( ) == null || result.getRouteel( ) == null || result.getAccountel( ).getBooking( ) != result.getRouteel( ).getId( )) {
+        if (result.getAccountel( ) == null || result.getRouteel( ) == null ||
+                !Objects.equals( result.getAccountel( ).getBooking( ), result.getRouteel( ).getId( ) )) {
             log.debug( "check input payment" );
             return null;
         }
@@ -85,7 +89,8 @@ public class AccountController {
         Result result = new Result( accountel, routeel );
 
 
-        if (result.getAccountel( ) == null || result.getRouteel( ) == null || result.getAccountel( ).getBooking( ) != result.getRouteel( ).getId( )) {
+        if (result.getAccountel( ) == null || result.getRouteel( ) == null ||
+                !Objects.equals( result.getAccountel( ).getBooking( ), result.getRouteel( ).getId( ) )) {
             log.debug( "check input payment" );
             return null;
         }
