@@ -1,12 +1,16 @@
 package com.example.cicdassignment.service;
 
 import com.example.cicdassignment.pojo.Account;
+import com.example.cicdassignment.pojo.JAccount;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface AccountService {
     List <Account> selectAll();
+
+    Account selectById(Integer id);
+
     @Transactional
     Boolean addAccount(Account account);
     @Transactional
@@ -15,5 +19,9 @@ public interface AccountService {
     Boolean updateAccount(Account account);
     @Transactional
     Boolean changeBooking(Integer id, Integer booking, String history);
+
+    List<JAccount> selectJoinAll();
+
+    JAccount selectJoinByID(Integer id);
 
 }
