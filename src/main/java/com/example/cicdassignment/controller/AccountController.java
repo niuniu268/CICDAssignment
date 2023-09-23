@@ -32,10 +32,24 @@ public class AccountController {
         return accountService.selectJoinAll( );
     }
 
+    @PutMapping
+    public boolean addAccount (@RequestBody Account account) {
+        return accountService.addAccount( account );
+    }
+
+    @PostMapping("update")
+    public boolean updateAccount (@RequestBody Account account) {
+        return accountService.updateAccount( account );
+
+    }
+    @DeleteMapping("{id}")
+    public boolean delAccount(@PathVariable Integer id){
+        return accountService.deleteAccount( id );
+    }
+
     @PostMapping("add")
     public String addBooking (@RequestBody Payment payment) throws Exception {
 
-        System.out.println(payment );
 
         if (payment.getUserid( ) == null || payment.getRouteid( ) == null) {
             return null;
@@ -106,26 +120,5 @@ public class AccountController {
         return result.getAccountel( ).getPayment( );
 
     }
-//
-//    private Result getResult (Payment payment) {
-//        if (payment.getUserid( ) == null || payment.getRouteid( ) == null) {
-//            log.debug( "check input payment" );
-//            return null;
-//        }
-//
-//        Account accountel = accountService.selectById( payment.getUserid( ) );
-//        Route routeel = routeService.selectById( payment.getRouteid( ) );
-//        Result result = new Result( accountel, routeel );
-//        return result;
-//    }
-//
-//    private static class Result {
-//        public final Account accountel;
-//        public final Route routeel;
-//
-//        public Result (Account accountel, Route routeel) {
-//            this.accountel = accountel;
-//            this.routeel = routeel;
-//        }
-//    }
+
 }

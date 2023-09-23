@@ -1,0 +1,105 @@
+# CICD
+
+###
+# @name Test joined tables
+GET http://127.0.0.1:8082/account/join
+
+###
+# @name Test the account table
+GET http://127.0.0.1:8082/account
+
+###
+# @name Test the route table
+POST http://127.0.0.1:8082/route/update
+Content-Type: application/json
+
+{
+  "arrival": "goteborg",
+  "deliver": "sj",
+  "departure": "stockholm",
+  "expectArrival": "goteborg c",
+  "expectDeparture": "stockholm c",
+  "price": "550",
+  "id": 8,
+  "promotion": "",
+  "vehicle": "train"
+}
+
+###
+# @name http://127.0.0.1:8082/account/add
+POST http://127.0.0.1:8082/account/add
+Content-Type: application/json
+
+{
+  "userid": 1,
+  "routeid": 1
+}
+
+###
+# @name http://127.0.0.1:8082/account/add
+POST http://127.0.0.1:8082/account/add
+Content-Type: application/json
+
+{
+  "userid": 1,
+  "routeid": 1
+}
+
+###
+# @name http://127.0.0.1:8082/account/cancel
+POST http://127.0.0.1:8082/account/cancel
+Content-Type: application/json
+
+{
+  "userid": 3,
+  "routeid": 2
+}
+
+###
+# @name http://127.0.0.1:8082/account
+PUT http://127.0.0.1:8082/account
+Content-Type: application/json
+
+{
+  "booking": 0,
+  "contact": "0000",
+  "history": "0",
+  "name": "cat",
+  "payment": "credit card",
+  "type": "admin"
+}
+
+###
+# @name http://127.0.0.1:8082/account/update
+POST http://127.0.0.1:8082/account/update
+Content-Type: application/json
+
+{
+  "booking": 0,
+  "contact": "1234",
+  "history": "0",
+  "id": 17,
+  "name": "miaomiao",
+  "payment": "credit card",
+  "type": "user"
+}
+
+###
+# @name http://127.0.0.1:8082/account/16
+DELETE http://127.0.0.1:8082/account/16
+
+###
+# @name http://127.0.0.1:8082/route
+PUT http://127.0.0.1:8082/route
+Content-Type: application/json
+
+{
+  "arrival": "goteborg",
+  "deliver": "sl",
+  "departure": "stockholm",
+  "expectArrival": "goteborg c",
+  "expectDeparture": "stockholm c",
+  "price": "650",
+  "promotion": "",
+  "vehicle": "train"
+}
