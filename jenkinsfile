@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    tools {
+        maven "maven3"
+
+    }
+
+    stages {
+
+
+        stage('pull code') {
+            steps {
+                git credentialsId: 'niuniu', url: 'https://github.com/niuniu268/CICDAssignment.git'
+                echo "finish pull code from github"
+            }
+        }
+        stage('build') {
+            steps {
+                sh "mvn clean package"
+
+            }
+
+        }
+        stage('SSH send '){
+            steps {
+
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'testServer', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/CICD*.jar'), sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/target', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'Dockerfile')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+
+            }
+        }
+    }
+}
