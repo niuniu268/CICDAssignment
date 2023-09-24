@@ -21,10 +21,28 @@ pipeline {
             }
 
         }
+        stage('remove old docker container') {
+            steps {
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'testServer', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''sudo docker rm -f java-con
+sudo docker rmi java''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+
+            }
+
+        }
         stage('SSH send '){
             steps {
 
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'testServer', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/CICD*.jar'), sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/target', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'Dockerfile')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+
+            }
+        }
+        stage('run docker '){
+            steps {
+
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'testServer', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''sudo docker build -t java .
+sudo docker run -i -d -p 8082:8082 --name java-con java bash
+''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+
 
             }
         }
