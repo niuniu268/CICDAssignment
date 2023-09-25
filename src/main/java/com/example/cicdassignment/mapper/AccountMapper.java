@@ -43,5 +43,4 @@ public interface AccountMapper {
     JAccount selectJoinByID(@Param( ("id") ) Integer id);
 
 
-
 }

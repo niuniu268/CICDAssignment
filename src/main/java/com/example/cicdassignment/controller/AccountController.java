@@ -1,7 +1,9 @@
 package com.example.cicdassignment.controller;
 
 import com.example.cicdassignment.pojo.*;
+import com.example.cicdassignment.service.AccountService;
 import com.example.cicdassignment.service.AccountServiceImpl;
+import com.example.cicdassignment.service.RouteService;
 import com.example.cicdassignment.service.RouteServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,9 @@ import java.util.Objects;
 @RequestMapping("/account")
 public class AccountController {
     @Autowired
-    private AccountServiceImpl accountService;
+    private AccountService accountService;
     @Autowired
-    private RouteServiceImpl routeService;
+    private RouteService routeService;
 
     @GetMapping
     @ResponseBody

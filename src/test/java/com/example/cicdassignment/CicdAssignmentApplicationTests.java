@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import java.util.List;
@@ -36,7 +37,7 @@ class CicdAssignmentApplicationTests {
         System.out.println(accountMapper.selectAll() );
     }
     @Test
-    void  testSelectAllRoute(){
+    void testSelectAllRoute(){
         System.out.println(routeMapper.selectAllRoute() );
     }
     @Test
@@ -57,6 +58,7 @@ class CicdAssignmentApplicationTests {
 
     }
 
+    @Transactional
     @Test
     void testAddAccount(){
         Account account = new Account( );
@@ -72,16 +74,16 @@ class CicdAssignmentApplicationTests {
         assertNotSame( listA, listB );
     }
 
-
+    @Transactional
     @Test
     void testChangeBooking(){
         Account accountB = accountMapper.selectById( 9 );
-        Integer i = accountMapper.changeBooking( 9, 0, "0" );
+        Integer i = accountMapper.changeBooking( 9, 1, "666" );
         Account accountA = accountMapper.selectById( 9 );
         assertEquals( 1, i );
         assertNotSame( accountA, accountB );
     }
-
+    @Transactional
     @Test
     void testUpdateAccount(){
         Account account = new Account( );
@@ -97,13 +99,16 @@ class CicdAssignmentApplicationTests {
         assertEquals( account1, account );
 
     }
-//    @Test
-//    void testDeleteAccount(){
-//
-//        Integer i = accountMapper.deleteAccount( 10 );
-//        assertEquals( i,1 );
-//    }
 
+    @Transactional
+    @Test
+    void testDeleteAccount(){
+
+        Integer i = accountMapper.deleteAccount( 18 );
+        assertEquals( i,1 );
+    }
+
+    @Transactional
     @Test
     void testAddRoute(){
         Route route = new Route( );
@@ -124,11 +129,13 @@ class CicdAssignmentApplicationTests {
         assertEquals(1,i);
         assertNotSame( routesA, routesB );
     }
+
+    @Transactional
     @Test
     void testupdateRoute(){
 
         Route route = new Route( );
-        route.setId( 4 );
+        route.setId( 3 );
         route.setDeparture( "stockholm" );
         route.setArrival( "goteborg" );
         route.setVehicle( "train" );
