@@ -28,13 +28,13 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public Boolean addAccount (Account account) {
 
-        return accountMapper.addAccount( account ) > 0;
+        return accountMapper.addAccount( account ) > 0 ;
     }
 
     @Override
     public Boolean deleteAccount (Integer id) {
 
-        return accountMapper.deleteAccount(id)>0;
+        return accountMapper.deleteAccount(id) > 0;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.cicdassignment.controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.example.cicdassignment.pojo.Route;
+import com.example.cicdassignment.service.RouteService;
 import com.example.cicdassignment.service.RouteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,12 +14,12 @@ import java.util.List;
 @RequestMapping("/route")
 public class RouteController {
     @Autowired
-    private RouteServiceImpl routeService;
+    private RouteService routeService;
 
     @GetMapping
-    @RequestMapping
-    public String selectAll () {
-        return JSON.toJSONString( routeService.selectAll( ) );
+    @ResponseBody
+    public List <Route> selectAll () {
+        return  routeService.selectAll( ) ;
     }
 
     @PutMapping

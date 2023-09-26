@@ -2,6 +2,7 @@ package com.example.cicdassignment.service;
 
 import com.example.cicdassignment.pojo.Account;
 import com.example.cicdassignment.pojo.JAccount;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

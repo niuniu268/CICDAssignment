@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,7 +51,7 @@ public class AccountController {
     }
 
     @PostMapping("add")
-    public String addBooking (@RequestBody Payment payment) throws Exception {
+    public String addBooking (@RequestBody @NotNull Payment payment) throws Exception {
 
 
         if (payment.getUserid( ) == null || payment.getRouteid( ) == null) {
@@ -60,7 +61,6 @@ public class AccountController {
         Route routeel = routeService.selectById( payment.getRouteid( ) );
 
         Result result = new Result( accountel, routeel );
-
 
         int i = Integer.parseInt( result.getAccountel().getHistory() ) + Integer.parseInt( result.getRouteel().getPrice() );
         if (i <= 0) {
