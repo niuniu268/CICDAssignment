@@ -51,7 +51,19 @@ Based on the relational database, the project can fulfill CRUD function. When us
     1. Applied http client
     ![img6](https://github.com/niuniu268/CICDAssignment/blob/master/img/EndToEnd.png?raw=true)
 
-Jenkins
+- Stress test
+	1. applied Jmeter
+	2. installed Jmeter on the test server 192.168.1.72
+	3. added a new thread group and set up http request
+	4. set up the thread is 200*5
+	5. after configuration, you may see the result
+
+![img9](https://github.com/niuniu268/CICDAssignment/blob/master/img/ConfigJmeter.png?raw=true)	
+![img10](https://github.com/niuniu268/CICDAssignment/blob/master/img/StressTest.png?raw=true)
+	
+	 
+
+## Jenkins
 
 - Built up a Jenkins server at 192.168.1.72:8080
 - Built up a vagrant as a test server
